@@ -83,8 +83,11 @@ async def getHomework(session: CommandSession):
     if s[0] != '#':
         await session.send('请指定Boss序号或在#号之后指定作业标题～')
         return
-    
-    title, content = s[1:].split('\n', 1)
+    # Windows QQ 客户端的换行符存在差异
+    try:
+        title, content = s[1:].split('\n', 1)
+    except ValueError:
+        title, content = s[1:].split('\r', 1)
 
     # 连接数据库
     db_init()
